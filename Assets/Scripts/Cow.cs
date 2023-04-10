@@ -7,7 +7,7 @@ public class Cow : MonoBehaviour
     // Variables for the cow
     [Header("Movement")]
     [SerializeField] private float initialSpeed = 3f;
-    [SerializeField] private float growthRate = 0.4f;
+    [SerializeField] private float growthRate = 0.5f;
     private float moveSpeed;
     private float counter;
     private Rigidbody2D rb;
