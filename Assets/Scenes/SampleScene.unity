@@ -1171,7 +1171,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd4b8f393c8ab51459b6de49926f6fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  initialSpeed: 3
+  growthRate: 0.4
+  gameover: 0
+  knockout: 0
+  secondsPlaying: 0
 --- !u!1 &1668441599
 GameObject:
   m_ObjectHideFlags: 0
@@ -1296,7 +1300,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1fe511fa689df842934a7cbf71848eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  initialSpeed: 2
+  growthRate: 0.3
   gameover: 0
   knockout: 0
 --- !u!1 &1808794223
