@@ -14,22 +14,22 @@ public class Cow : MonoBehaviour
 
     // Variables of the game
     public bool gameover;
-    public bool knockout;
     public float secondsPlaying;
     
     // Start is called before the first frame update
     void Start()
     {
+        gameover = false;
+        secondsPlaying = 0f;
+
+        counter = 0f;
         rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(gameover) // GAME OVER
-        {
-        }
-        else // Still playing
+        if(!gameover) // Still Playing
         {
             secondsPlaying += Time.deltaTime;
             counter += Time.deltaTime;
@@ -40,6 +40,10 @@ public class Cow : MonoBehaviour
             {
                 transform.position += Vector3.right * moveSpeed * Time.deltaTime; // Mueve el personaje a la derecha
             }
+        }
+        else // GAME OVER
+        {
+            
         }
     }
 

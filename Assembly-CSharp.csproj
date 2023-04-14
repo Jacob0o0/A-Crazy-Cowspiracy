@@ -40,6 +40,7 @@
      <Compile Include="Assets\Scripts\ScrollGround.cs" />
      <Compile Include="Assets\Scripts\Cow.cs" />
      <Compile Include="Assets\Scripts\FollowPlayer.cs" />
+     <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Farmer.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity 2021.3.10f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
