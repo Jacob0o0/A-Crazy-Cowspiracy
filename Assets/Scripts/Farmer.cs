@@ -18,9 +18,12 @@ public class Farmer : MonoBehaviour
     private int timesLookingAtCow; // the times that the farmer has look at the cow
 
     [Header("Aspect of the farmer")]
+    private Animator animator;
     private SpriteRenderer farmerSpriteR;
     public Sprite iddle;
+    private GameObject headNormal;
     public Sprite looking;
+    private GameObject headChecking;
 
     //Body of the cow
     [Header("Player")]
@@ -31,6 +34,7 @@ public class Farmer : MonoBehaviour
     //Variables of the game
     [Header("Game Variables")]
     public bool gameover;
+    public bool gameStart;
     public bool knockout;
     private float timeReaction = 0.35f;
     private bool randomize;
@@ -41,10 +45,16 @@ public class Farmer : MonoBehaviour
     {
         knockout = false;
         gameover = false;
+        gameStart = false;
         randomize = true;
         mainCamera = Camera.main;
 
         farmerSpriteR = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
+        headNormal = transform.GetChild(0).gameObject;
+        headNormal.SetActive(false);
+        headChecking = transform.GetChild(1).gameObject;
+        headChecking.SetActive(false);
 
         counter = 0f;
         secondsAwake = 0f;
@@ -56,9 +66,11 @@ public class Farmer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!gameover) // Still playing
+        if (!gameover && gameStart) // Still playing
         {
             // For the movement of the farmer
+            animator.SetBool("Moving", true);
+            headNormal.SetActive(true);
             secondsAwake += Time.deltaTime;
             moveSpeed = IncreaseSpeed(secondsAwake);
             //Debug.Log(moveSpeed);
@@ -83,7 +95,8 @@ public class Farmer : MonoBehaviour
 
             if (checkingReality) // Function to look at the cow
             {
-                farmerSpriteR.sprite = looking; // to change the sprite of the farmer
+                headNormal.SetActive(false);
+                headChecking.SetActive(true);
 
                 lookingAtCow += Time.deltaTime; // time lookin at the cow
 
@@ -102,9 +115,10 @@ public class Farmer : MonoBehaviour
                 else if (lookingAtCow >= timeLooking) // the farmer is crazy and he didn't see anything
                 {
                     counter = 0;
-                    farmerSpriteR.sprite = iddle;
+                    
                     lookingAtCow = 0f;
-
+                    headChecking.SetActive(false);
+                    headNormal.SetActive(true);
                     randomize = true;
                     checkingReality = false;
                     timesLookingAtCow += 1;
@@ -117,6 +131,9 @@ public class Farmer : MonoBehaviour
         }
         else // GAME OVER
         {
+            if (!gameStart) {
+                
+            }
         }
     }
 
@@ -131,7 +148,14 @@ public class Farmer : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-
+            if (!gameStart) // Function to make the game start
+            {
+                gameStart = true;
+                GameManager.Instance.gameStart = true;
+                GameManager.Instance.ActivateTimer();
+                animator.SetBool("Moving", true);
+                headNormal.SetActive(true);
+            }
         }
     }
 
@@ -159,6 +183,8 @@ public class Farmer : MonoBehaviour
         Debug.Log("GAME OVER");
         gameover = true;
         player.gameover = true;
+        GameManager.Instance.DeactivateTimer();
+        GameManager.Instance.gameover = true;
     }
 
     void OutOfScreen()

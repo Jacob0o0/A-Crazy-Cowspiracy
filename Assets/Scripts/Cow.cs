@@ -11,6 +11,8 @@ public class Cow : MonoBehaviour
     private float moveSpeed;
     private float counter;
     private Rigidbody2D rb;
+    [Header("Animation")]
+    private Animator animator;
 
     // Variables of the game
     public bool gameover;
@@ -24,12 +26,13 @@ public class Cow : MonoBehaviour
 
         counter = 0f;
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!gameover) // Still Playing
+        if(!GameManager.Instance.gameover) // Still Playing
         {
             secondsPlaying += Time.deltaTime;
             counter += Time.deltaTime;
@@ -38,7 +41,11 @@ public class Cow : MonoBehaviour
 
             if (Input.GetKey(KeyCode.RightArrow)) // Verifica si se ha presionado la tecla derecha
             {
+                animator.SetBool("Moving", true);
                 transform.position += Vector3.right * moveSpeed * Time.deltaTime; // Mueve el personaje a la derecha
+            }
+            else {
+                animator.SetBool("Moving", false);
             }
         }
         else // GAME OVER
