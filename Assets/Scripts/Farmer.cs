@@ -20,10 +20,9 @@ public class Farmer : MonoBehaviour
     [Header("Aspect of the farmer")]
     private Animator animator;
     private SpriteRenderer farmerSpriteR;
-    public Sprite iddle;
     private GameObject headNormal;
-    public Sprite looking;
     private GameObject headChecking;
+
 
     //Body of the cow
     [Header("Player")]
@@ -151,7 +150,6 @@ public class Farmer : MonoBehaviour
             if (!gameStart) // Function to make the game start
             {
                 gameStart = true;
-                GameManager.Instance.gameStart = true;
                 GameManager.Instance.ActivateTimer();
                 animator.SetBool("Moving", true);
                 headNormal.SetActive(true);
@@ -182,6 +180,8 @@ public class Farmer : MonoBehaviour
     {
         Debug.Log("GAME OVER");
         gameover = true;
+        headChecking.SetActive(false);
+        animator.SetBool("GameOver", true);
         player.gameover = true;
         GameManager.Instance.DeactivateTimer();
         GameManager.Instance.gameover = true;

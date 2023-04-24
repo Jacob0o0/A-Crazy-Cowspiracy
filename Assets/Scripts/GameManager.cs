@@ -11,16 +11,22 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance; // To grab the instance of the game everywhere
 
-    // Characters
+    [Header("Characters")]
     public GameObject player;
     public GameObject farmer;
 
-    // Variables of the Game
+    [Header("Variables of the game")]
     public bool gameStart;
+    public bool centinelaStart;
     public bool gameover;
     private float timePlaying;
     private bool timerOn;
+
+    [Header("GUI")]
     public TMPro.TextMeshProUGUI timerText;
+    public GameObject titleObj;
+    public RectTransform title;
+    public float moveSpeed = 150f;
 
     void Awake() {
         if (Instance == null)
@@ -32,7 +38,9 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        gameStart = false;
+        centinelaStart = false;
+        gameover = false;
     }
 
     // Update is called once per frame
@@ -41,6 +49,18 @@ public class GameManager : MonoBehaviour
         if (gameStart && timerOn)
         {
             ChangeTimer();
+        }
+
+        if (gameStart && !centinelaStart)
+        {
+            title.anchoredPosition += new Vector2(0f, moveSpeed * Time.deltaTime);
+            Vector3[] corners = new Vector3[4];
+            title.GetWorldCorners(corners);
+            if (corners[0].y > Screen.height) {
+                Destroy(titleObj);
+                centinelaStart = true;
+                Debug.Log("Title moved");
+            }
         }
     }
 

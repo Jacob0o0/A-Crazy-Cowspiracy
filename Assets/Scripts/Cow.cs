@@ -14,14 +14,16 @@ public class Cow : MonoBehaviour
     [Header("Animation")]
     private Animator animator;
 
-    // Variables of the game
+    [Header("Variables of the game")]
     public bool gameover;
     public float secondsPlaying;
+    private bool centinelaStart;
     
     // Start is called before the first frame update
     void Start()
     {
         gameover = false;
+        centinelaStart = false;
         secondsPlaying = 0f;
 
         counter = 0f;
@@ -39,8 +41,13 @@ public class Cow : MonoBehaviour
             
             moveSpeed = IncreaseSpeed(secondsPlaying);
 
-            if (Input.GetKey(KeyCode.RightArrow)) // Verifica si se ha presionado la tecla derecha
+            if (Input.GetKey(KeyCode.RightArrow) || Input.touchCount > 0) // Verifica si se ha presionado la tecla derecha
             {
+                if (centinelaStart == false)
+                {
+                    GameManager.Instance.gameStart = true;
+                    centinelaStart = true;
+                }
                 animator.SetBool("Moving", true);
                 transform.position += Vector3.right * moveSpeed * Time.deltaTime; // Mueve el personaje a la derecha
             }
@@ -50,7 +57,7 @@ public class Cow : MonoBehaviour
         }
         else // GAME OVER
         {
-            
+            animator.SetBool("GameOver", true);
         }
     }
 
