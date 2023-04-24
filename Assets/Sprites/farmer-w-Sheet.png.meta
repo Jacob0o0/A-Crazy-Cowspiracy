@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b37a0fd5441ca224d8e4383ced56943b
+guid: 014d1804fe319ae409fcad986053c297
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -117,7 +117,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: farmer-iddle-Sheet_0
+      name: farmer-w-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -131,14 +131,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bba13cf01af14614ba3be145f399c86c
-      internalID: -1768040906
+      spriteID: 875d253fa503eba44afe3b5ca365815e
+      internalID: 1330535900
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: farmer-iddle-Sheet_1
+      name: farmer-w-Sheet_1
       rect:
         serializedVersion: 2
         x: 320
@@ -152,14 +152,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4027de9686ba8634fb50e3aa7fb21db3
-      internalID: -38211968
+      spriteID: a53d8bfb248940543b6416eb4b017410
+      internalID: -1717325581
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: farmer-iddle-Sheet_2
+      name: farmer-w-Sheet_2
       rect:
         serializedVersion: 2
         x: 640
@@ -173,14 +173,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9245cbee4cbc1ba408a02b454695fbc7
-      internalID: 1243174557
+      spriteID: a048728052a511b489111c30355f0eaf
+      internalID: -1798438188
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: farmer-iddle-Sheet_3
+      name: farmer-w-Sheet_3
       rect:
         serializedVersion: 2
         x: 960
@@ -194,8 +194,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 24e59fcdef5fdd54d960f0ee72a831ac
-      internalID: 474542738
+      spriteID: 4a99bb43caed1c143b69c49a15850054
+      internalID: -252166658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: farmer-w-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 0
+        width: 320
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c0db300b9b13e6429442ecd54bbcbaa
+      internalID: 746665093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: farmer-w-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 0
+        width: 320
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10cb85a90f1af4042b40d979e220cebd
+      internalID: -1065367359
       vertices: []
       indices: 
       edges: []
@@ -211,10 +253,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      farmer-iddle-Sheet_0: -1768040906
-      farmer-iddle-Sheet_1: -38211968
-      farmer-iddle-Sheet_3: 474542738
-      farmer-iddle-Sheet_2: 1243174557
+      farmer-w-Sheet_1: -1717325581
+      farmer-w-Sheet_4: 746665093
+      farmer-w-Sheet_3: -252166658
+      farmer-w-Sheet_2: -1798438188
+      farmer-w-Sheet_0: 1330535900
+      farmer-w-Sheet_5: -1065367359
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
