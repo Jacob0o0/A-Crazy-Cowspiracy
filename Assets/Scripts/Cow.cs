@@ -7,7 +7,7 @@ public class Cow : MonoBehaviour
     // Variables for the cow
     [Header("Movement")]
     [SerializeField] private float initialSpeed = 3f;
-    [SerializeField] private float growthRate = 0.4f;
+    [SerializeField] private float growthRate = 0.85f;
     private float moveSpeed;
     private float counter;
     private Rigidbody2D rb;
@@ -15,16 +15,15 @@ public class Cow : MonoBehaviour
     private Animator animator;
 
     [Header("Variables of the game")]
-    public bool gameover;
     public float secondsPlaying;
     private bool centinelaStart;
     
     // Start is called before the first frame update
     void Start()
     {
-        gameover = false;
         centinelaStart = false;
         secondsPlaying = 0f;
+        moveSpeed = initialSpeed;
 
         counter = 0f;
         rb = GetComponent<Rigidbody2D>();
@@ -39,7 +38,7 @@ public class Cow : MonoBehaviour
             secondsPlaying += Time.deltaTime;
             counter += Time.deltaTime;
             
-            moveSpeed = IncreaseSpeed(secondsPlaying);
+            // moveSpeed = IncreaseSpeed(secondsPlaying);
 
             if (Input.GetKey(KeyCode.RightArrow) || Input.touchCount > 0) // Verifica si se ha presionado la tecla derecha
             {
@@ -66,8 +65,8 @@ public class Cow : MonoBehaviour
 
     }
 
-    float IncreaseSpeed(float seconds)
+    public void IncreaseSpeed(float x)
     {
-        return initialSpeed + (Mathf.Pow(seconds, growthRate));
+        moveSpeed = initialSpeed + Mathf.Pow(x, growthRate);
     }
 }

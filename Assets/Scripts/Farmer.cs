@@ -55,6 +55,7 @@ public class Farmer : MonoBehaviour
         headChecking = transform.GetChild(1).gameObject;
         headChecking.SetActive(false);
 
+        moveSpeed = initialSpeed;
         counter = 0f;
         secondsAwake = 0f;
         checkingReality = false;
@@ -71,7 +72,6 @@ public class Farmer : MonoBehaviour
             animator.SetBool("Moving", true);
             headNormal.SetActive(true);
             secondsAwake += Time.deltaTime;
-            moveSpeed = IncreaseSpeed(secondsAwake);
             //Debug.Log(moveSpeed);
             transform.position += Vector3.right * (moveSpeed) * Time.deltaTime;
             // ------------------------------
@@ -116,11 +116,15 @@ public class Farmer : MonoBehaviour
                     counter = 0;
                     
                     lookingAtCow = 0f;
-                    headChecking.SetActive(false);
-                    headNormal.SetActive(true);
                     randomize = true;
                     checkingReality = false;
                     timesLookingAtCow += 1;
+                    
+                    headChecking.SetActive(false);
+                    headNormal.SetActive(true);
+                    
+                    moveSpeed = IncreaseSpeed();
+                    player.IncreaseSpeed(timesLookingAtCow);
                 }
             }
             // -----------------------------------------
@@ -157,17 +161,22 @@ public class Farmer : MonoBehaviour
         }
     }
 
-    float IncreaseSpeed(float seconds)
+    float IncreaseSpeed()
     {
-        return initialSpeed + (Mathf.Pow(seconds, growthRate));
+        // return initialSpeed + (Mathf.Pow(seconds, growthRate));
+        return initialSpeed + Mathf.Pow(timesLookingAtCow, 0.75f);
     }
 
     void RandomThings()
     {
-        if (timesLookingAtCow < 1000)
+        if (timesLookingAtCow < 400)
         {
-            randomLook = Random.Range(2f - (Mathf.Pow(timesLookingAtCow, growthRate) / 4f), 6f - (Mathf.Pow(timesLookingAtCow, 0.45f) * 0.26f)); // To randomize the time that the farmer look at the cow in a range of 3 seconds to 8 seconds
+            // randomLook = Random.Range(2f - (Mathf.Pow(timesLookingAtCow, growthRate) / 4f), 6f - (Mathf.Pow(timesLookingAtCow, 0.45f) * 0.26f)); // To randomize the time that the farmer look at the cow in a range of 2 seconds to 6 seconds
+            randomLook = Random.Range(2f - (Mathf.Pow(timesLookingAtCow, growthRate) / 3f), 6f - (Mathf.Pow(timesLookingAtCow, 0.45f) * 0.4f)); // To randomize the time that the farmer look at the cow in a range of 2 seconds to 6 seconds
+            
+            // timeLooking = Random.Range(0.50f, 2f - (Mathf.Pow(timesLookingAtCow, growthRate) / 6)); // To randomize the time that the farmer spends looking at the cow
             timeLooking = Random.Range(0.50f, 2f - (Mathf.Pow(timesLookingAtCow, growthRate) / 6)); // To randomize the time that the farmer spends looking at the cow
+
             randomize = false; // To not call the function again until the farmer looks at the cow
         }
         else
@@ -176,24 +185,25 @@ public class Farmer : MonoBehaviour
         }
     }
 
-    void GameOver()
-    {
-        Debug.Log("GAME OVER");
-        gameover = true;
-        headChecking.SetActive(false);
-        animator.SetBool("GameOver", true);
-        player.gameover = true;
-        GameManager.Instance.DeactivateTimer();
-        GameManager.Instance.gameover = true;
-    }
-
     void OutOfScreen()
     {
         Vector3 screenPosition = mainCamera.WorldToViewportPoint(transform.position);
 
-        if(screenPosition.x > 1.1)
+        if(screenPosition.x > 1.15)
         {
             GameOver();
         }
     }
+
+    void GameOver()
+    {
+        Debug.Log("GAME OVER");
+        gameover = true;
+
+        headChecking.SetActive(false);
+        animator.SetBool("GameOver", true);
+        GameManager.Instance.DeactivateTimer();
+        GameManager.Instance.gameover = true;
+    }
+
 }
