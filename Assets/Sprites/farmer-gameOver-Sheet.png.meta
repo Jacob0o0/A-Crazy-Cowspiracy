@@ -131,8 +131,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ac1e659c116e95d46a497d09227570e9
-      internalID: -1556903553
+      spriteID: 1c8418cf9cc2104458711b90da4aa079
+      internalID: -1944455344
       vertices: []
       indices: 
       edges: []
@@ -152,8 +152,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c7c95b45cc9f13948b97f672decb8473
-      internalID: 557240373
+      spriteID: 8d3b36f9fc776fd4d83e7b4b70281c3d
+      internalID: -75735799
       vertices: []
       indices: 
       edges: []
@@ -169,8 +169,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      farmer-gameOver-Sheet_1: 557240373
-      farmer-gameOver-Sheet_0: -1556903553
+      farmer-gameOver-Sheet_1: -75735799
+      farmer-gameOver-Sheet_0: -1944455344
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

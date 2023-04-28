@@ -22,6 +22,7 @@ public class Farmer : MonoBehaviour
     private SpriteRenderer farmerSpriteR;
     private GameObject headNormal;
     private GameObject headChecking;
+    private GameObject cornPlus;
 
 
     //Body of the cow
@@ -54,6 +55,8 @@ public class Farmer : MonoBehaviour
         headNormal.SetActive(false);
         headChecking = transform.GetChild(1).gameObject;
         headChecking.SetActive(false);
+        cornPlus = transform.GetChild(2).gameObject;
+        cornPlus.SetActive(false);
 
         moveSpeed = initialSpeed;
         counter = 0f;
@@ -158,13 +161,30 @@ public class Farmer : MonoBehaviour
                 animator.SetBool("Moving", true);
                 headNormal.SetActive(true);
             }
+
+            GameManager.Instance.corns += 1;
+            cornPlus.SetActive(true);
+            StartCoroutine(DeactivateCorn());
+        }
+    }
+
+    IEnumerator DeactivateCorn() {
+        yield return new WaitForSeconds(1);
+        cornPlus.SetActive(false);
+    }
+
+    private void OnTriggerExit(Collider other) {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            StopCoroutine(DeactivateCorn());
+            cornPlus.SetActive(false);
         }
     }
 
     float IncreaseSpeed()
     {
         // return initialSpeed + (Mathf.Pow(seconds, growthRate));
-        return initialSpeed + Mathf.Pow(timesLookingAtCow, 0.75f);
+        return initialSpeed + Mathf.Pow(timesLookingAtCow, 0.70f);
     }
 
     void RandomThings()
@@ -201,6 +221,7 @@ public class Farmer : MonoBehaviour
         gameover = true;
 
         headChecking.SetActive(false);
+        headNormal.SetActive(false);
         animator.SetBool("GameOver", true);
         GameManager.Instance.DeactivateTimer();
         GameManager.Instance.gameover = true;
