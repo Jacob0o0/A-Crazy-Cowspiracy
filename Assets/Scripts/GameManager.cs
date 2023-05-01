@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     private bool timerOn;
     public int corns;
     private int score;
+    public bool touchDevice;
 
     [Header("GUI")]
     public TMPro.TextMeshProUGUI timerText;
@@ -40,6 +41,7 @@ public class GameManager : MonoBehaviour
     public GameObject creditsButton;
     public GameObject cornCount;
     public GameObject highscoreObj;
+    public GameObject newScorePrompt;
     public float moveSpeed = 150f;
 
     void Awake() {
@@ -57,6 +59,16 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
+        if (SystemInfo.deviceType == DeviceType.Handheld)
+        {
+            touchDevice = true;
+        }
+        else if (SystemInfo.deviceType == DeviceType.Desktop)
+        {
+            touchDevice = false;
+        }
+
+
         gameStart = false;
         centinelaStart = false;
         gameover = false;
@@ -64,9 +76,12 @@ public class GameManager : MonoBehaviour
         corns = 0;
 
         gameOverMenuObj.SetActive(false);
+        menuButton.SetActive(true);
+        creditsButton.SetActive(true);
         optionsObj.SetActive(false);
         cornCount.SetActive(false);
         highscoreObj.SetActive(false);
+        newScorePrompt.SetActive(false);
     }
 
     // Update is called once per frame
@@ -140,6 +155,7 @@ public class GameManager : MonoBehaviour
         if (score > PlayerPrefs.GetInt("HighScore", 0)) 
         {
             PlayerPrefs.SetInt("HighScore", score);
+            newScorePrompt.SetActive(true);
         }
 
         highscoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0).ToString();
@@ -159,5 +175,10 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene("Scenes/MainGame");
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
