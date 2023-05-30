@@ -2678,6 +2678,7 @@ MonoBehaviour:
   gameover: 0
   centinelaOver: 0
   corns: 0
+  touchDevice: 0
   timerText: {fileID: 1468397449}
   cornText: {fileID: 1751044474}
   highscoreText: {fileID: 1739568760}
@@ -3701,7 +3702,7 @@ MonoBehaviour:
   menuButton: {fileID: 1121363112}
 --- !u!95 &1641680486
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -3718,7 +3719,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1668441599
 GameObject:
   m_ObjectHideFlags: 0
@@ -3855,6 +3857,8 @@ MonoBehaviour:
   gameover: 0
   gameStart: 0
   knockout: 0
+  collided: 0
+  intervalToWait: 3.2
 --- !u!61 &1668441605
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3883,7 +3887,7 @@ BoxCollider2D:
   m_EdgeRadius: 0
 --- !u!95 &1668441606
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -3900,7 +3904,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1670545497
 GameObject:
   m_ObjectHideFlags: 0

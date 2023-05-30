@@ -15,7 +15,6 @@ public class Farmer : MonoBehaviour
     private bool checkingReality;
     private float lookingAtCow;
     private float timeLooking;
-    private int timesLookingAtCow; // the times that the farmer has look at the cow
 
     [Header("Aspect of the farmer")]
     private Animator animator;
@@ -36,8 +35,9 @@ public class Farmer : MonoBehaviour
     public bool gameover;
     public bool gameStart;
     public bool knockout;
+    public bool collided;
+    public float intervalToWait = 3.2f;
     private float timeReaction = 0.35f;
-    private bool randomize;
     private Camera mainCamera;
 
     // Start is called before the first frame update
@@ -46,7 +46,7 @@ public class Farmer : MonoBehaviour
         knockout = false;
         gameover = false;
         gameStart = false;
-        randomize = true;
+        collided = false;
         mainCamera = Camera.main;
 
         farmerSpriteR = GetComponent<SpriteRenderer>();
@@ -63,7 +63,6 @@ public class Farmer : MonoBehaviour
         secondsAwake = 0f;
         checkingReality = false;
         lookingAtCow = 0f;
-        timesLookingAtCow = 0;
     }
 
     // Update is called once per frame
@@ -75,62 +74,28 @@ public class Farmer : MonoBehaviour
             animator.SetBool("Moving", true);
             headNormal.SetActive(true);
             secondsAwake += Time.deltaTime;
-            //Debug.Log(moveSpeed);
             transform.position += Vector3.right * (moveSpeed) * Time.deltaTime;
             // ------------------------------
 
             counter += Time.deltaTime;
 
-            // RANDOM THINGS ONCE
-            if (randomize)
-            {
-                RandomThings();
-                randomize = false;
-            }
-            // -------------------
-
-            // Checking if the cow moves at a random time
-            if (counter > randomLook - 0.5 && counter < randomLook + 0.5) // Random time in between 3 seconds and 8 seconds for loock at the cow
-            {
-                checkingReality = true; // To look at the cow
+            // The farmer looks at the cow with a probabilty based on his position between the cow and the end of the screen
+            if (counter > intervalToWait) {
+                Debug.Log($"Segundos: {counter}");
+                Debug.Log($"Espera: {intervalToWait}");
+                int randomNumber = Random.Range(0, 101); // random number between 0 and 100
+                RandomThings(randomNumber);
+                counter = 0;
             }
 
-            if (checkingReality) // Function to look at the cow
-            {
-                headNormal.SetActive(false);
-                headChecking.SetActive(true);
-
-                lookingAtCow += Time.deltaTime; // time lookin at the cow
-
-                if (lookingAtCow > timeReaction && lookingAtCow < timeLooking) // to check if the cow moves
-                {
-                    if (lookingAtCow > timeReaction - 0.05 && lookingAtCow < timeReaction + 0.05)
-                    {
-                        cowInitialPosition = cow.position;
-                    }
-
-                    if (Vector2.Distance(cowInitialPosition, cow.position) > 0 && !gameover)
-                    {
-                        GameOver(); // GAME OVER
-                    }
-                }
-                else if (lookingAtCow >= timeLooking) // the farmer is crazy and he didn't see anything
-                {
-                    counter = 0;
-                    
-                    lookingAtCow = 0f;
-                    randomize = true;
-                    checkingReality = false;
-                    timesLookingAtCow += 1;
-                    
-                    headChecking.SetActive(false);
-                    headNormal.SetActive(true);
-                    
-                    moveSpeed = IncreaseSpeed();
-                    player.IncreaseSpeed(timesLookingAtCow);
-                }
+            if (checkingReality) { // Function to look at the cow
+                LookAtTheCow();
+            } else if (collided) {
+                int randomNumber = Random.Range(0, 101); // random number between 0 and 100
+                RandomThings(randomNumber);
+                LookAtTheCow();
             }
-            // -----------------------------------------
+            // -------------------------------
 
             OutOfScreen(); // to check if the farmer is out of screen
 
@@ -157,11 +122,13 @@ public class Farmer : MonoBehaviour
             if (!gameStart) // Function to make the game start
             {
                 gameStart = true;
+                collided = true;
                 GameManager.Instance.ActivateTimer();
                 animator.SetBool("Moving", true);
                 headNormal.SetActive(true);
             }
 
+            collided = true;
             GameManager.Instance.corns += 1;
             cornPlus.SetActive(true);
             StartCoroutine(DeactivateCorn());
@@ -184,24 +151,68 @@ public class Farmer : MonoBehaviour
     float IncreaseSpeed()
     {
         // return initialSpeed + (Mathf.Pow(seconds, growthRate));
-        return initialSpeed + Mathf.Pow(timesLookingAtCow, 0.70f);
+        return initialSpeed + 0.2f;
     }
 
-    void RandomThings()
+    void RandomThings(int randomInt)
     {
-        if (timesLookingAtCow < 400)
-        {
-            // randomLook = Random.Range(2f - (Mathf.Pow(timesLookingAtCow, growthRate) / 4f), 6f - (Mathf.Pow(timesLookingAtCow, 0.45f) * 0.26f)); // To randomize the time that the farmer look at the cow in a range of 2 seconds to 6 seconds
-            randomLook = Random.Range(2f - (Mathf.Pow(timesLookingAtCow, growthRate) / 3f), 6f - (Mathf.Pow(timesLookingAtCow, 0.45f) * 0.4f)); // To randomize the time that the farmer look at the cow in a range of 2 seconds to 6 seconds
-            
-            // timeLooking = Random.Range(0.50f, 2f - (Mathf.Pow(timesLookingAtCow, growthRate) / 6)); // To randomize the time that the farmer spends looking at the cow
-            timeLooking = Random.Range(0.50f, 2f - (Mathf.Pow(timesLookingAtCow, growthRate) / 6)); // To randomize the time that the farmer spends looking at the cow
+        if (collided) {
+            checkingReality = true;
+            timeLooking = Random.Range(0.50f, 2.5f); // To randomize the time that the farmer spends looking at the cow
+        } else {
+            // Get the coordinates of the right edge of the screen in camera space with a gap in x axis
+            Vector3 screenRight = new Vector3(0.9f, 0.5f, 0);
+            Vector3 screenLeft = new Vector3(0f, 0.5f, 0);
+            Vector3 worldPointR = mainCamera.ViewportToWorldPoint(screenRight);
+            Vector3 worldPointL = mainCamera.ViewportToWorldPoint(screenLeft);
 
-            randomize = false; // To not call the function again until the farmer looks at the cow
+            float totalDistance = worldPointR.x - worldPointL.x; // Space between the cow and the end of the camera view
+            float farmerDistance = worldPointR.x - transform.position.x; // Distance between the farmer and the end of the camera view
+            float percentage = (farmerDistance / totalDistance) * 100f; // Percentage of the distance (PROBABILITY that the farmer looks at the cow)
+            float probability = percentage + (GameManager.Instance.corns/2);
+            Debug.Log($"Probability: {probability}");
+
+            if (randomInt <= probability) {
+                checkingReality = true;
+                if (probability >= (50/3)) {
+                    timeLooking = Random.Range(0.50f, ((probability * 3)/100) ); // To randomize the time that the farmer spends looking at the cow
+                } else {
+                    timeLooking = 0f;
+                }
+            }
         }
-        else
+    }
+
+    void LookAtTheCow() {
+        headNormal.SetActive(false);
+        headChecking.SetActive(true);
+
+        lookingAtCow += Time.deltaTime; // time lookin at the cow
+
+        if (lookingAtCow > timeReaction && lookingAtCow < timeLooking) // to check if the cow moves
         {
-            // The player just win the game (idk how)
+            if (lookingAtCow > timeReaction - 0.05 && lookingAtCow < timeReaction + 0.05)
+            {
+                cowInitialPosition = cow.position;
+            }
+
+            if (Vector2.Distance(cowInitialPosition, cow.position) > 0 && !gameover)
+            {
+                GameOver(); // GAME OVER
+            }
+        }
+        else if (lookingAtCow >= timeLooking) // the farmer is crazy and he didn't see anything
+        {
+            lookingAtCow = 0f;
+            checkingReality = false;
+            collided = false;
+            intervalToWait = intervalToWait - 0.02f;
+
+            headChecking.SetActive(false);
+            headNormal.SetActive(true);
+            
+            moveSpeed = IncreaseSpeed();
+            player.IncreaseSpeed();
         }
     }
 

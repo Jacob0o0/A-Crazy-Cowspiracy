@@ -99,8 +99,8 @@ public class Cow : MonoBehaviour
 
     }
 
-    public void IncreaseSpeed(float x)
+    public void IncreaseSpeed()
     {
-        moveSpeed = initialSpeed + Mathf.Pow(x, growthRate);
+        moveSpeed = initialSpeed + 0.26f;
     }
 }
