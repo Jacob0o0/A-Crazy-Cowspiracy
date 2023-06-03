@@ -28,9 +28,9 @@ public class GameManager : MonoBehaviour
     public bool touchDevice;
 
     [Header("GUI")]
-    public TMPro.TextMeshProUGUI timerText;
     public TMPro.TextMeshProUGUI cornText;
     public TMPro.TextMeshProUGUI highscoreText;
+    public TMPro.TextMeshProUGUI scoreText;
     public GameObject titleObj;
     public RectTransform title;
     public GameObject gameOverMenuObj;
@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour
     public GameObject cornCount;
     public GameObject highscoreObj;
     public GameObject newScorePrompt;
+    public TMPro.TextMeshProUGUI soundText;
+    public bool soundStatus;
     public float moveSpeed = 150f;
 
     void Awake() {
@@ -68,12 +70,23 @@ public class GameManager : MonoBehaviour
             touchDevice = false;
         }
 
+        // Verificar si es la primera vez que se ejecuta el juego
+        if (PlayerPrefs.GetInt("IsFirstTime", 0) == 0)
+        {
+            // Realizar la configuración inicial
+            SetupPlayerPrefs();
+
+            // Establecer la variable de control para indicar que ya se ha configurado
+            PlayerPrefs.SetInt("IsFirstTime", 1);
+            PlayerPrefs.Save();
+        }
 
         gameStart = false;
         centinelaStart = false;
         gameover = false;
         centinelaOver = false;
         corns = 0;
+        soundStatus = true;
 
         gameOverMenuObj.SetActive(false);
         menuButton.SetActive(true);
@@ -82,6 +95,15 @@ public class GameManager : MonoBehaviour
         cornCount.SetActive(false);
         highscoreObj.SetActive(false);
         newScorePrompt.SetActive(false);
+
+        if (PlayerPrefs.GetInt("Music", 0) == 1) { // The sound is on
+            soundText.text = "Music\n on";
+            soundStatus = true;
+            MusicControl.Instance.PlayMainSong(true);
+        } else if (PlayerPrefs.GetInt("Music", 0) == 0) { // The sound is off
+            soundText.text = "Music\n off";
+            soundStatus = false;
+        }
     }
 
     // Update is called once per frame
@@ -91,7 +113,6 @@ public class GameManager : MonoBehaviour
         {
             if (gameStart && timerOn)
             {
-                ChangeTimer();
                 ChangeCornText();
             }
 
@@ -116,22 +137,18 @@ public class GameManager : MonoBehaviour
             menuButton.SetActive(true);
             creditsButton.SetActive(true);
 
-            score = ((int)(timePlaying%60) * corns);
+            score = corns;
             highscoreObj.SetActive(true);
             UpdateHighScore();
+            ShowScore();
 
             centinelaOver = true;
         }
     }
 
-    private void ChangeTimer()
+    private void SetupPlayerPrefs()
     {
-        timePlaying += Time.deltaTime;
-        int minutes = Mathf.FloorToInt(timePlaying / 60f);
-        int seconds = Mathf.FloorToInt(timePlaying % 60f);
-
-        // Show time on screen
-        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        PlayerPrefs.SetInt("Music", 1);
     }
 
     private void ChangeCornText()
@@ -161,10 +178,19 @@ public class GameManager : MonoBehaviour
         highscoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0).ToString();
     }
 
+    private void ShowScore()
+    {
+        scoreText.text = "Score: " + score.ToString();
+    }
+
     public void Menu()
     {
+        if (PlayerPrefs.GetInt("Music", 0) == 1) { // The sound is on
+            soundText.text = "Music\n on";
+        } else if (PlayerPrefs.GetInt("Music", 0) == 0) { // The sound is off
+            soundText.text = "Music\n off";
+        }
         optionsObj.SetActive(true);
-        PlayerPrefs.DeleteKey("HighScore");
     }
 
     public void CloseMenu()
@@ -175,6 +201,32 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene("Scenes/MainGame");
+    }
+
+    public void CreditsMenu()
+    {
+        SceneManager.LoadScene("Scenes/Credits");
+    }
+
+    public void MainSong()
+    {
+
+    }
+
+    public void SoundControl()
+    {
+        Debug.Log("ENTRO A SOUND CONTROL");
+        if (soundStatus) { // The sound is on
+            soundStatus = false; // Sound off
+            PlayerPrefs.SetInt("Music", 0);
+            MusicControl.Instance.Music(soundStatus);
+            soundText.text = "Music\n off";
+        } else { // The sound is off
+            soundStatus = true; // Sound on
+            PlayerPrefs.SetInt("Music", 1);
+            MusicControl.Instance.Music(soundStatus);
+            soundText.text = "Music\n on";
+        }
     }
 
     public void QuitGame()

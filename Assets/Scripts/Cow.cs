@@ -22,13 +22,17 @@ public class Cow : MonoBehaviour
 
     [Header("GUI")]
     public Button menuButton;
-    
+    public bool walkingCentinela;
+    public bool centinelaGameOver;
+
     // Start is called before the first frame update
     void Start()
     {
         centinelaStart = false;
         secondsPlaying = 0f;
         moveSpeed = initialSpeed;
+        walkingCentinela = false;
+        centinelaGameOver = false;
 
         counter = 0f;
         rb = GetComponent<Rigidbody2D>();
@@ -58,15 +62,31 @@ public class Cow : MonoBehaviour
                             }
                             animator.SetBool("Moving", true);
                             transform.position += Vector3.right * moveSpeed * Time.deltaTime; // Mueve el personaje a la derecha
+                            if (walkingCentinela == false) 
+                            {
+                                MusicControl.Instance.PlayMainSong(false);
+                                MusicControl.Instance.PlayRunSong(true);
+                                walkingCentinela = true;
+                            }
                         }
                         else if (Input.GetTouch(0).phase == TouchPhase.Ended)
                         {
-                            animator.SetBool("Moving", false);
+                            if(walkingCentinela == true){
+                                animator.SetBool("Moving", false);
+                                MusicControl.Instance.PlayRunSong(false);
+                                MusicControl.Instance.PlayMainSong(true);
+                                walkingCentinela = false;
+                            }
                         }
                     }
                     else
                     {
-                        animator.SetBool("Moving", false);
+                        if(walkingCentinela == true){
+                            animator.SetBool("Moving", false);
+                            MusicControl.Instance.PlayRunSong(false);
+                            MusicControl.Instance.PlayMainSong(true);
+                            walkingCentinela = false;
+                        }
                     }
                 }
             }
@@ -79,18 +99,36 @@ public class Cow : MonoBehaviour
                         GameManager.Instance.gameStart = true;
                         centinelaStart = true;
                     }
-                    animator.SetBool("Moving", true);
                     transform.position += Vector3.right * moveSpeed * Time.deltaTime; // Mueve el personaje a la derecha
+                    if (walkingCentinela == false) 
+                    {
+                        animator.SetBool("Moving", true);
+                        MusicControl.Instance.PlayMainSong(false);
+                        MusicControl.Instance.PlayRunSong(true);
+                        walkingCentinela = true;
+                    }
                 }
                 else
                 {
-                    animator.SetBool("Moving", false);
+                    if(walkingCentinela == true)
+                    {
+                        animator.SetBool("Moving", false);
+                        MusicControl.Instance.PlayRunSong(false);
+                        MusicControl.Instance.PlayMainSong(true);
+                        walkingCentinela = false;
+                    }
                 }
             }
         }
         else // GAME OVER
         {
-            animator.SetBool("GameOver", true);
+            if(centinelaGameOver == false)
+            {
+                animator.SetBool("GameOver", true);
+                MusicControl.Instance.StopMusic();
+                MusicControl.Instance.GameOverSong(true);
+                centinelaGameOver = true;
+            }
         }
     }
 

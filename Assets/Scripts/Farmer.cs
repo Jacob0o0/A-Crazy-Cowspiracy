@@ -40,6 +40,10 @@ public class Farmer : MonoBehaviour
     private float timeReaction = 0.35f;
     private Camera mainCamera;
 
+    [Header("Sound")]
+    private AudioSource lookSound;
+    private bool playingSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,6 +67,9 @@ public class Farmer : MonoBehaviour
         secondsAwake = 0f;
         checkingReality = false;
         lookingAtCow = 0f;
+
+        lookSound = GetComponent<AudioSource>();
+        playingSound = false;
     }
 
     // Update is called once per frame
@@ -145,6 +152,7 @@ public class Farmer : MonoBehaviour
         {
             StopCoroutine(DeactivateCorn());
             cornPlus.SetActive(false);
+            SoundEfects.Instance.CornPlusSound();
         }
     }
 
@@ -185,6 +193,11 @@ public class Farmer : MonoBehaviour
 
     void LookAtTheCow() {
         headNormal.SetActive(false);
+        if (playingSound == false)
+        {
+            lookSound.Play();
+            playingSound = true;
+        }
         headChecking.SetActive(true);
 
         lookingAtCow += Time.deltaTime; // time lookin at the cow
@@ -204,6 +217,8 @@ public class Farmer : MonoBehaviour
         else if (lookingAtCow >= timeLooking) // the farmer is crazy and he didn't see anything
         {
             lookingAtCow = 0f;
+            lookSound.Stop();
+            playingSound = false;
             checkingReality = false;
             collided = false;
             intervalToWait = intervalToWait - 0.02f;
