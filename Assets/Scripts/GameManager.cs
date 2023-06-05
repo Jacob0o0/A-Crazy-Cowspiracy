@@ -208,6 +208,11 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Scenes/Credits");
     }
 
+    public void HowToMenu()
+    {
+        SceneManager.LoadScene("Scenes/HowTo");
+    }
+
     public void MainSong()
     {
 

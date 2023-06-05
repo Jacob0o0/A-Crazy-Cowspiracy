@@ -181,7 +181,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'How to play:'
+  m_text: Credits
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 53c6470ebcaa2b34e9599f80447ee836, type: 2}
   m_sharedMaterial: {fileID: -1558590833013059627, guid: 53c6470ebcaa2b34e9599f80447ee836, type: 2}
@@ -618,9 +618,9 @@ RectTransform:
   m_Father: {fileID: 939527389}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -87, y: -236}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 137.3, y: -185.1}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &779529756
@@ -643,7 +643,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: This game was created by Jacobo Escorcia, aka "Alien Dude".
+  m_text: Come on... press the cow. ;)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 53c6470ebcaa2b34e9599f80447ee836, type: 2}
   m_sharedMaterial: {fileID: -1558590833013059627, guid: 53c6470ebcaa2b34e9599f80447ee836, type: 2}
@@ -706,7 +706,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -379.93442, w: 23.989347}
+  m_margin: {x: 0, y: 0, z: -59.60759, w: 23.989347}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -908,9 +908,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 260d4b0b836368c4880a2b48f226e7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainSong: {fileID: 8300000, guid: 9500a936fd51627498c41e54fed69380, type: 3}
+  mainSong: {fileID: 8300000, guid: b0f1237ba29f13a4fb63641b4493d592, type: 3}
   gameoverSong: {fileID: 8300000, guid: 08bb376765c2c1e42b61a5635f74dd3b, type: 3}
-  runSong: {fileID: 8300000, guid: 4fc108991e060f5459e865653ac850b4, type: 3}
+  runSong: {fileID: 8300000, guid: 66c751cc58900b7419e971256c1b41f7, type: 3}
 --- !u!4 &1229998566
 Transform:
   m_ObjectHideFlags: 0
@@ -1214,10 +1214,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Your cow is hungry! Go after the farmer to steal some corn, but be careful!
-    The farmer can't see you walking on two legs, or the game is over. \n\nWhy does
-    the cow walk on two legs? I don't know, maybe she has always coexisted with humans...\n\nJust
-    touch the screen or press the right arrow to move. Have fun!"
+  m_text: "|| Game Developer, Game Designer and Level Designer: \n\tJacobo Escorcia\n||
+    Art Director and Graphic Designer:\n\tJacobo Escorcia, alias Alien Dude\n|| Sound
+    Efects:\n\tJacobo Escorcia\n|| Music: \n-> \"Corncob\" Kevin MacLeod (incompetech.com)\r\nLicensed
+    under Creative Commons: By Attribution 4.0 License\r\nhttp://creativecommons.org/licenses/by/4.0/\n->
+    \"Still Pickin\" Kevin MacLeod (incompetech.com)\r\nLicensed under Creative Commons:
+    By Attribution 4.0 License\r\nhttp://creativecommons.org/licenses/by/4.0/"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 53c6470ebcaa2b34e9599f80447ee836, type: 2}
   m_sharedMaterial: {fileID: -1558590833013059627, guid: 53c6470ebcaa2b34e9599f80447ee836, type: 2}
@@ -1244,8 +1246,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1280,7 +1282,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: -26.488731, z: -159.20506, w: 21.974442}
+  m_margin: {x: 0, y: -26.488731, z: -182.22281, w: -102.70353}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
